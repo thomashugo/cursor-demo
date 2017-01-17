@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cursor: Cloud Notes</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="main-flexbox">
+        <input type="checkbox" id="notebook-menu-toggle-check">
+        <div id="notebook-menu-container">
+
+            <div id="notebook-menu">
+                <div id="notebook-menu-top">Notebooks</div>
+                <div id="notebook-menu-list">
+                    <div class="notebook-menu-list-item">
+                        <div class="menu-item-name">Unselected</div>
+                        <div class="menu-item-star"></div>
+                    </div>
+                    <div class="notebook-menu-list-item notebook-menu-list-item-selected">
+                        <div class="menu-item-name">Selected</div>
+                        <div class="menu-item-star"></div>
+                    </div>
+                    <div class="notebook-menu-list-item notebook-menu-list-item-starred">
+                        <div class="menu-item-name">Starred</div>
+                        <div class="menu-item-star"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="header-bar">
+
+            <label class="header-button" id="show-notebook-menu-button" for="notebook-menu-toggle-check"><img src="resources/icons/menu-icon.svg" alt="Menu Icon"></label>
+
+            <div class="search-bar">
+                <img src="resources/icons/loupe-icon.svg" alt="Search Icon">
+                <input type="text" class="header-button" id="search-field" placeholder="Search notes...">
+
+            </div>
+
+
+            <a href="#" class="header-button cursor-logo">cursor_</a>
+
+
+            <a href="#" class="header-button" id="settings-button">
+                <img src="resources/icons/settings-1-icon.svg" alt="Settings Icon">
+            </a>
+        </div>
+        <div id="note-app-container">
+            <div id="note-menu">
+                <label id="show-note-list-button" for="note-list-toggle-check">
+                    <img src="resources/icons/list-icon.svg">
+                </label>
+                <div id="new-note-button">
+                    <img src="resources/icons/plus-icon.svg">
+                </div>
+            </div>
+            <input type="checkbox" id="note-list-toggle-check">
+            <div id="note-list">
+                <div class="note">
+                    <div class="note-title-date-cont">
+                        <div class="note-title-display">Note Title Continues On and On and Such</div>
+                        <div class="note-date-display">Jan 10, 2016</div>
+                    </div>
+                    <div class="note-content-display">This is note content. his is note content.his is note content.his is note content.his is note content.</div>
+                </div>
+                <div class="note">
+                    <div class="note-title-date-cont">
+                        <div class="note-title-display">Note Title Short</div>
+                        <div class="note-date-display">Jan 10, 2016</div>
+                    </div>
+                    <div class="note-content-display">This is note content. his is note content.his is note content.his is note content.his is note content.</div>
+                </div>
+            </div>
+            <div id="note-editor">
+                <div id="note-content">
+                    <div id="note-editor-head">
+                        <input id="note-title-input" type="text" placeholder="Note Title Here...">
+                        <div id="note-tag-editor">
+                            <img src="resources/icons/ribbon-filled-icon.svg" alt="Tag Note">
+                        </div>
+                        <label id="show-timeline-button" for="timeline-toggle-check">
+                            <img src="resources/icons/clock-icon.svg" alt="Show note history">
+                        </label>
+                    </div>
+                    <div class="note-content-timeline-cont">
+                        <div class="contain-content-input">
+                            <textarea id="note-content-input" placeholder="Write a note..."></textarea>
+                        </div>
+                        <input type="checkbox" id="timeline-toggle-check">
+                        <div id="note-timeline"></div>
+                    </div>
+                </div>
+                <div class="note-buttons">
+                    <div class="note-save-button"><img src="resources/icons/ok-circle-icon.svg"></div>
+                    <div class="note-delete-button"><img src="resources/icons/trash-icon.svg"></div>
+                </div>
+            </div>
+        </div>
+        <footer>
+        </footer>
+    </div>
+</body>
+
+</html>
