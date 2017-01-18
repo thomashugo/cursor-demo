@@ -28,7 +28,15 @@ input[type="button"],
 input[type="submit"],
 .input-checkbox {
     -webkit-appearance: none;
+<<<<<<< HEAD
     border-radius: 0;
+=======
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    background-clip: padding-box;
+    box-shadow: none;
+>>>>>>> origin/master
 }
 
 
