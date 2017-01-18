@@ -27,16 +27,11 @@ input[type="text"],
 input[type="button"],
 input[type="submit"],
 .input-checkbox {
+    border: 0;
+    margin: 0;
+    padding: 0;
     -webkit-appearance: none;
-<<<<<<< HEAD
     border-radius: 0;
-=======
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0;
-    background-clip: padding-box;
-    box-shadow: none;
->>>>>>> origin/master
 }
 
 
@@ -280,7 +275,7 @@ input[type="submit"],
 }
 
 .note-title-display {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #555;
     flex: 1 1 auto;
     white-space: nowrap;
@@ -297,7 +292,7 @@ input[type="submit"],
 }
 
 .note-content-display {
-    flex: 1 0 100%;
+    flex: 0 0 auto;
     padding: 10px 10px 0 10px;
     color: #777;
     font-size: .8em;
