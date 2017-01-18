@@ -26,14 +26,6 @@ a {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    min-width: 0;
-}
-
-.generic-flex {
-    display: flex;
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
 }
 
 
@@ -43,7 +35,6 @@ a {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-width: 0;
 }
 
 
@@ -209,6 +200,7 @@ a {
     display: flex;
     flex-direction: column;
     border-top: 1px solid #333;
+    min-width: 0;
 }
 
 #note-menu {
@@ -314,7 +306,7 @@ a {
     background-color: #ebebeb;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    /*    overflow: hidden;*/
 }
 
 #note-content {
@@ -326,7 +318,6 @@ a {
 #note-editor-head {
     flex: 0 1 35px;
     display: flex;
-    min-width: 0;
     /*    width: 200px*/
 }
 
@@ -411,6 +402,10 @@ a {
     display: flex;
 }
 
+.note-buttons img {
+    height: 25px;
+}
+
 .note-save-button {
     flex: 4 4 auto;
     background-color: #696;
@@ -439,7 +434,7 @@ a {
 
 /* Media Queries */
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 800px) {
     #notebook-menu-app-container {
         flex-direction: row;
     }
@@ -464,33 +459,25 @@ a {
         display: flex;
         flex-direction: row;
         min-width: 0;
-        width: 550px;
     }
     #note-menu {
         flex: 0 1 auto;
-        min-width: 0;
     }
     #show-note-list-button {
         flex: 0 1 250px;
     }
     #new-note-button {
         flex: 1 1 auto;
-        min-width: 0;
     }
     #note-list {
         flex: 0 0 250px;
         border-right: 1px solid #ccc;
     }
-    #note-content {
-        min-width: 0;
-    }
     #note-editor {
         flex: 1 1 auto;
         min-width: 0;
     }
-    .note-buttons {
-        min-width: 0;
-    }
+    .note-buttons {}
     .note-buttons div {
         padding: 15px;
     }
