@@ -19,6 +19,18 @@ a {
 }
 
 
+/* iOS Input Styling */
+
+textarea,
+input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-clip: padding-box;
+    box-shadow: none;
+}
+
+
 /* Flexbox Types */
 
 .main-flexbox {
@@ -413,15 +425,4 @@ a {
 
 .note-delete-button:hover {
     background-color: #a44;
-}
-
-
-/* iOS Input Styling */
-
-textarea,
-input[type="text"],
-input[type="button"],
-input[type="submit"] {
-    -webkit-appearance: none;
-    border-radius: 0;
 }
