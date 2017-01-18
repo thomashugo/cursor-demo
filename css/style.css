@@ -352,6 +352,8 @@ a {
 .note-content-timeline-cont {
     flex: 1 1 auto;
     display: flex;
+    padding-left: 35px;
+    background-color: #fff;
 }
 
 .contain-content-input {
@@ -360,7 +362,7 @@ a {
     border: 1px solid #fff;
     background-color: #fff;
     justify-content: center;
-    padding: 0;
+    padding: 20px 0;
 }
 
 #note-content-input {
@@ -368,7 +370,7 @@ a {
     border: 0;
     margin: 0;
     max-width: 900px;
-    padding: 20px;
+    /*    padding: 20px;*/
     font-size: 1em;
     line-height: 1.4em;
     resize: none;
@@ -387,14 +389,15 @@ a {
 }
 
 #note-timeline {
-    display: none;
+    display: flex;
+    visibility: hidden;
     flex: 0 0 35px;
     border-left: 1px solid #ddd;
     background-color: #dfdfdf;
 }
 
 #timeline-toggle-check:checked ~ #note-timeline {
-    display: flex;
+    visibility: visible;
 }
 
 .note-buttons {
