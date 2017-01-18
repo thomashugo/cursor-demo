@@ -19,23 +19,7 @@ a {
 }
 
 
-/* iOS Input Styling */
-
-textarea,
-input.text,
-input[type="text"],
-input[type="button"],
-input[type="submit"],
-.input-checkbox {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    -webkit-appearance: none;
-    border-radius: 0;
-}
-
-
-/* Flexbox Types */
+/* Flexbox */
 
 .main-flexbox {
     width: 100%;
@@ -44,8 +28,19 @@ input[type="submit"],
     flex-direction: column;
 }
 
+#editor-flex {
+    flex: 1 1 auto;
+    display: flex;
+}
+
 
 /* Main Components */
+
+#notebook-menu-app-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
 
 
 /* Notebook Menu Styles */
@@ -133,7 +128,6 @@ input[type="submit"],
 
 #header-bar {
     flex: 0 0 auto;
-    order: -1;
     height: 40px;
     background-color: #505050;
     display: flex;
@@ -151,14 +145,14 @@ input[type="submit"],
     margin: 10px;
 }
 
-.search-bar {
+#search-bar {
     flex: 1 1 auto;
     margin: 0;
     display: flex;
     background-color: #444;
 }
 
-.search-bar img {
+#search-bar img {
     flex: 0 1 auto;
     display: flex;
     background-color: #444;
@@ -178,7 +172,7 @@ input[type="submit"],
     background-color: #353535;
 }
 
-.cursor-logo {
+#cursor-logo {
     display: none;
 }
 
@@ -214,7 +208,7 @@ input[type="submit"],
 }
 
 #note-menu {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     display: flex;
     background-color: #ddd;
     overflow: hidden;
@@ -316,7 +310,7 @@ input[type="submit"],
     background-color: #ebebeb;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /*    overflow: hidden;*/
 }
 
 #note-content {
@@ -326,8 +320,15 @@ input[type="submit"],
 }
 
 #note-editor-head {
-    flex: 0 0 35px;
+    flex: 0 1 35px;
     display: flex;
+    /*    width: 200px*/
+}
+
+#note-list-editor-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #note-title-input {
@@ -401,13 +402,12 @@ input[type="submit"],
 }
 
 .note-buttons {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     display: flex;
-    flex-wrap: wrap;
 }
 
 .note-save-button {
-    flex: 4 1 auto;
+    flex: 4 4 auto;
     background-color: #696;
 }
 
@@ -429,4 +429,58 @@ input[type="submit"],
 
 .note-delete-button:hover {
     background-color: #a44;
+}
+
+
+/* Media Queries */
+
+@media screen and (min-width: 850px) {
+    #notebook-menu-app-container {
+        flex-direction: row;
+    }
+    #notebook-menu-toggle-check:checked ~ #notebook-menu-container {
+        flex: 0 0 250px;
+        display: flex;
+        border-right: 1px solid #333;
+    }
+    #search-bar {
+        flex: 1 1 auto;
+    }
+    #cursor-logo {
+        display: block;
+        font-size: 2em;
+        flex: 0 0 150px;
+        height: 100%;
+        padding: 0 10px;
+        background-color: #444;
+    }
+    #note-list-editor-container {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
+        /*                width: 550px;*/
+    }
+    #note-menu {
+        flex: 0 1 auto;
+    }
+    #show-note-list-button {
+        flex: 0 1 250px;
+    }
+    #new-note-button {
+        flex: 1 1 auto;
+    }
+    #note-list {
+        flex: 0 0 250px;
+        border-right: 1px solid #ccc;
+    }
+    #note-editor {
+        flex: 1 1 auto;
+    }
+    .note-buttons {}
+    .note-buttons div {
+        padding: 15px;
+    }
+    .note-buttons img {
+        height: 35px;
+    }
 }
