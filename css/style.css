@@ -22,12 +22,13 @@ a {
 /* iOS Input Styling */
 
 textarea,
-input[type="text"] {
+input.text,
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+.input-checkbox {
     -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-clip: padding-box;
-    box-shadow: none;
+    border-radius: 0;
 }
 
 
