@@ -59,7 +59,7 @@ a {
 #notebook-menu-top {
     flex: 0 1 auto;
     color: #eee;
-    padding: 10px;
+    padding: 8px;
     border-bottom: 1px solid #333;
 }
 
@@ -118,6 +118,18 @@ a {
     background-size: contain;
 }
 
+#create-new-notebook-button {
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+}
+#create-new-notebook-button:hover {
+    background-color: #252525;
+}
+
+#create-new-notebook-button img {
+    height: 20px;
+}
 
 /* Header Bar Style */
 
@@ -186,10 +198,8 @@ a {
 }
 
 #notebook-menu-toggle-check:checked ~ #notebook-menu-container {
-    flex: 0 0 auto;
-    display: flex;
-    order: 0;
     border-top: 1px solid #333;
+    display: flex;
 }
 
 
@@ -302,11 +312,11 @@ a {
 /* Note Editor Styles */
 
 #note-editor {
-    flex: 1 1 auto;
+    flex: 10 1 auto;
     background-color: #ebebeb;
     display: flex;
     flex-direction: column;
-    /*    overflow: hidden;*/
+/*    display: none;*/
 }
 
 #note-content {
@@ -409,43 +419,47 @@ a {
     height: 25px;
 }
 
-.note-save-button {
+#note-save-button {
     flex: 4 4 auto;
     background-color: #696;
 }
 
-.note-delete-button {
+#note-delete-button {
     flex: 1 1 auto;
     background-color: #a66;
 }
 
-.note-save-button,
-.note-delete-button {
+#note-save-button,
+#note-delete-button {
     display: flex;
     justify-content: center;
     padding: 10px;
 }
 
-.note-save-button:hover {
+#note-save-button:hover {
     background-color: #494;
 }
 
-.note-delete-button:hover {
+#note-delete-button:hover {
     background-color: #a44;
 }
 
 
 /* Media Queries */
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 600px) {
     #notebook-menu-app-container {
         flex-direction: row;
     }
     #notebook-menu-toggle-check:checked ~ #notebook-menu-container {
         flex: 0 0 250px;
-        display: flex;
         border-right: 1px solid #333;
     }
+}
+
+@media screen and (min-width: 800px) {
+    
+    
     #search-bar {
         flex: 1 1 auto;
     }
