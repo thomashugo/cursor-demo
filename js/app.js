@@ -1,49 +1,79 @@
 //////// Test Data Model
 
+var userPreferences = {
+    defaultNotebook: undefined,
+    colorScheme: undefined,
+}
 
 var noteData = {
     notebook_0001: {
-        notebookName: "testNotebook",
+        name: "Test Notebook",
+        starred: false,
+        notes: [
+            {
+                noteID: "abcdefg1234567890",
+                noteTitle: "First Note",
+                noteContent: "This is the note content",
+                dateSaved: new Date('December 12, 2001 03:24:00'),
+                noteHistory: [
+                    {
+                        noteTitle: "Note Test",
+                        noteContent: "First words",
+                        dateSaved: 20170117162323
+                    }
+                ]
+            },
+            {
+                noteID: "xyz987654321",
+                noteTitle: "Second Note",
+                noteContent: "Next note content",
+                dateSaved: new Date('December 17, 2000 03:24:00'),
+                noteHistory: [
+                    {
+                        noteTitle: "Note Test Two",
+                        noteContent: "First words",
+                        dateSaved: 20170118172023
+                    }
+                ]
+            }
+        ]
+    },
+    notebook_0002: {
+        name: "Other Test Notebook with a long name that goes on forever and ever and ever and ever",
         starred: true,
-//        notes: [
-//            {
-//                noteID: "abcdefg1234567890",
-//                noteTitle: "First Note",
-//                noteContent: "This is the note content",
-//                dateSaved: 20170118162323,
-//                noteHistory: [
-//                    {
-//                        noteTitle: "Note Test",
-//                        noteContent: "First words",
-//                        dateSaved: 20170117162323
-//                    }
-//                ]
-//            },
-//            {
-//                noteID: "xyz987654321",
-//                noteTitle: "Second Note",
-//                noteContent: "Next note content",
-//                dateSaved: 20170118172323,
-//                noteHistory: [
-//                    {
-//                        noteTitle: "Note Test Two",
-//                        noteContent: "First words",
-//                        dateSaved: 20170118172023
-//                    }
-//                ]
-//            }
-//        ]
-        notes: [],
-    }
+        // lastLoaded property to determine which notebook to show by default
+        notes: [
+            {
+                noteID: "dabcdefg1234567890",
+                noteTitle: "Other Note",
+                noteContent: "This is the note content",
+                dateSaved: new Date('December 12, 2001 03:24:00'),
+                noteHistory: [
+                    {
+                        noteTitle: "Note Test",
+                        noteContent: "First words",
+                        dateSaved: 20170117162323
+                    }
+                ]
+            },
+            {
+                noteID: "faxyz987654321",
+                noteTitle: "Another Note",
+                noteContent: "Next note content",
+                dateSaved: new Date('December 17, 2000 03:24:00'),
+                noteHistory: [
+                    {
+                        noteTitle: "Note Test Two",
+                        noteContent: "First words",
+                        dateSaved: 20170118172023
+                    }
+                ]
+            }
+        ]
+    },
 };
 
-var activeNotebook = noteData.notebook_0001;
-//var activeNote = {
-//    noteID: undefined,
-//    noteTitle: undefined,
-//    noteContent: undefined,
-//    dateSaved: undefined
-//};
+var activeNotebook = noteData.notebook_0002;
 
 function note (noteID, noteTitle, noteContent, dateSaved) {
     this.noteID = noteID;
@@ -73,12 +103,81 @@ var noteContentInput = document.getElementById("note-content-input");
 ////// App Methods
 
 var noteapp = {
-  updateNoteListDisplay: function () {
+  createNotebookMenuItem: function (notebookArr) {
+      var html = "";
+      var notebookObject = notebookArr[1];
+      var notebookKey = notebookArr[0];
+//      console.log(notebookKey);
+      if ((Object.is(activeNotebook, noteData[notebookKey])) && notebookObject.starred) {
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected notebook-menu-list-item-starred\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          return html;
+      } else if (Object.is(activeNotebook, noteData[notebookKey])) {
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          return html;
+      } else if (notebookObject.starred) {
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-starred\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          return html;
+      } else {
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          return html;
+      }
+  },
+  updateNotebookDisplay: function (notebookDataObject) {
+      // make array of notebook names and IDs, sort it by preference, iterate to create html, update html, add click handlers
+      var sortedNotebooksArr = [];
+      var notebookMenuHTML = "";
+      Object.keys(notebookDataObject).forEach(function(key){
+          sortedNotebooksArr.push([key,notebookDataObject[key]]);
+      });
+      sortedNotebooksArr.sort(function(a, b){
+          if (a[1].name < b[1].name) return -1;
+          if (a[1].name > b[1].name) return 1;
+          return 0;
+      });
+      sortedNotebooksArr.forEach(function(notebook){
+          
+          notebookMenuHTML = notebookMenuHTML.concat(noteapp.createNotebookMenuItem(notebook));
+      });
+      var newNotebookButton = "<div class=\"notebook-menu-list-item\" id=\"create-new-notebook-button\"><img src=\"resources/icons/plus-icon-light.svg\"></div>";
+      notebookMenuHTML = notebookMenuHTML.concat(newNotebookButton);
+      notebookMenuList.innerHTML = notebookMenuHTML;
+  },
+    makeNotebooksLoadable: function () {
+        var notebookElement = document.getElementsByClassName("notebook-button");
+        for (var i = 0; i < notebookElement.length; i++) {
+//            console.log(notebookElement[i]);
+            notebookElement[i].addEventListener('click', noteapp.loadNotebook, false);
+        };
+    },
+    loadNotebook: function(){
+//        console.log(this.getAttribute("id"));
+        var id = this.getAttribute("id");
+        activeNotebook = noteData[id];
+        noteapp.updateNotebookDisplay(noteData);
+        noteapp.makeNotebooksLoadable();
+        noteapp.startNewNote();
+        noteapp.updateNoteListDisplay();
+        noteapp.makeNotesLoadable();
+    },
+    startNewNotebook: function (){},
+    deleteNotebook: function () {},
+    sortNotesByDate: function () {
+        activeNotebook.notes.sort(function(a,b){
+            return b.dateSaved.getTime() - a.dateSaved.getTime();
+        });
+    },
+    updateNoteListDisplay: function () {
+      noteapp.sortNotesByDate();
       noteList.innerHTML = "";
       var noteListHTML = "";
       activeNotebook.notes.forEach(function(noteData) {
-      var html = "<div id=\"" + noteData.noteID + "\" class=\"note\"><div class=\"note-title-date-cont\"><div class=\"note-title-display\">" + noteData.noteTitle + "</div>" + "<div class=\"note-date-display\">" + noteData.dateSaved + "</div></div><div class=\"note-content-display\">" + noteData.noteContent + "</div></div>";
-      noteListHTML = noteListHTML.concat(html);
+        var activeClass = "";
+          if (noteData.noteID === activeNote.noteID) {
+              activeClass = "note-active"
+          }
+        var prettyDate = noteData.dateSaved.toDateString();
+        var html = "<div id=\"" + noteData.noteID + "\" class=\"note " + activeClass + "\"><div class=\"note-title-date-cont\"><div class=\"note-title-display\">" + noteData.noteTitle + "</div>" + "<div class=\"note-date-display\">" + prettyDate + "</div></div><div class=\"note-content-display\">" + noteData.noteContent + "</div></div>";
+        noteListHTML = noteListHTML.concat(html);
     });
       noteList.innerHTML = noteListHTML;
   },
@@ -122,8 +221,7 @@ var noteapp = {
   },
   saveNote: function () {
     var date = new Date();
-    var noteDate = date.getFullYear().toString() + (date.getMonth() + 1).toString() + date.getDate().toString();
-    var updatedNote = new note(activeNote.noteID, noteTitleInput.value, noteContentInput.value, noteDate);
+    var updatedNote = new note(activeNote.noteID, noteTitleInput.value, noteContentInput.value, date);
     var noteExists = false;
       activeNotebook.notes.forEach(function(noteObj, index) {
       if (updatedNote.noteID === noteObj.noteID) {
@@ -166,6 +264,8 @@ deleteNoteButton.onclick = function () {
   noteapp.updateNoteListDisplay();
   noteapp.makeNotesLoadable();
 }
+noteapp.updateNotebookDisplay(noteData);
+noteapp.makeNotebooksLoadable();
 noteapp.startNewNote();
 noteapp.updateNoteListDisplay();
 noteapp.makeNotesLoadable();
