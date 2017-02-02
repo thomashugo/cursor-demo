@@ -251,7 +251,19 @@ newNoteButton.onclick = function() {
   noteapp.updateNoteListDisplay();
   noteapp.makeNotesLoadable();
 };
-
+noteContentInput.addEventListener('keydown', function(e) {
+    if (e.keyCode == 13 && e.metaKey) {
+        noteapp.saveNote();
+        noteapp.updateNoteListDisplay();
+        noteapp.makeNotesLoadable();
+    }
+    if (e.keyCode == 8 || e.keyCode == 46) {
+        noteapp.deleteNote();
+        noteapp.startNewNote();
+        noteapp.updateNoteListDisplay();
+        noteapp.makeNotesLoadable();
+    }
+});
 saveNoteButton.onclick = function() {
   noteapp.saveNote();
   noteapp.updateNoteListDisplay();
