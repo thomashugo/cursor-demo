@@ -78,11 +78,12 @@ a {
     border-bottom: 1px solid #404040;
 }
 
-.menu-item-name {
+.notebook-menu-item-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 90%;
+/*    padding: 10px;*/
 }
 
 .notebook-menu-list-item:hover {
@@ -124,6 +125,14 @@ a {
     width: 20px;
     background: url("../resources/icons/star-icon-filled-grey.svg") no-repeat;
     background-size: contain;
+}
+
+#active-notebook-name:hover {
+    border-bottom: 1px solid #bbb;
+}
+
+.menu-item-star {
+    align-self: flex-end;
 }
 
 #create-new-notebook-button {
@@ -473,7 +482,7 @@ a {
         border-right: 1px solid #333;
         max-width: 275px;
     }
-    .menu-item-name {
+    .notebook-menu-item-name {
         max-width: 80%;
     }
 }

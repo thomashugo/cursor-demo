@@ -107,18 +107,17 @@ var noteapp = {
       var html = "";
       var notebookObject = notebookArr[1];
       var notebookKey = notebookArr[0];
-//      console.log(notebookKey);
       if ((Object.is(activeNotebook, noteData[notebookKey])) && notebookObject.starred) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected notebook-menu-list-item-starred\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
           return html;
       } else if (Object.is(activeNotebook, noteData[notebookKey])) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
           return html;
       } else if (notebookObject.starred) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-starred\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
           return html;
       } else {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item\"><div class=\"menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
           return html;
       }
   },
@@ -135,7 +134,6 @@ var noteapp = {
           return 0;
       });
       sortedNotebooksArr.forEach(function(notebook){
-          
           notebookMenuHTML = notebookMenuHTML.concat(noteapp.createNotebookMenuItem(notebook));
       });
       var newNotebookButton = "<div class=\"notebook-menu-list-item\" id=\"create-new-notebook-button\"><img src=\"resources/icons/plus-icon-light.svg\"></div>";
@@ -145,12 +143,32 @@ var noteapp = {
     makeNotebooksLoadable: function () {
         var notebookElement = document.getElementsByClassName("notebook-button");
         for (var i = 0; i < notebookElement.length; i++) {
-//            console.log(notebookElement[i]);
-            notebookElement[i].addEventListener('click', noteapp.loadNotebook, false);
+            if (Object.is(noteData[notebookElement[i].id], activeNotebook)) {
+                var notebookNameField = notebookElement[i].firstElementChild
+                notebookNameField.id = "active-notebook-name";
+                notebookNameField.contentEditable = true;
+                notebookNameField.addEventListener('blur', function(){
+                        activeNotebook.name = this.innerHTML;
+                        });
+                notebookNameField.addEventListener('keydown', function(e){
+                    if (e.keyCode == 13) {
+                        e.preventDefault();
+                        notebookNameField.blur();
+                    } 
+                });
+            } else {
+                notebookElement[i].addEventListener('click', noteapp.loadNotebook, false);
+            }
+        };
+    },
+    makeNotebookNamesEditable: function () {
+        var notebookNames = document.getElementsByClassName("notebook-menu-item-name");
+        for (var i = 0; i < notebookNames.length; i++) {
+            console.log(notebookNames[i]);
+//            notebookNames[i].contentEditable = true;
         };
     },
     loadNotebook: function(){
-//        console.log(this.getAttribute("id"));
         var id = this.getAttribute("id");
         activeNotebook = noteData[id];
         noteapp.updateNotebookDisplay(noteData);
@@ -159,7 +177,9 @@ var noteapp = {
         noteapp.updateNoteListDisplay();
         noteapp.makeNotesLoadable();
     },
-    startNewNotebook: function (){},
+    startNewNotebook: function (){
+        
+    },
     deleteNotebook: function () {},
     sortNotesByDate: function () {
         activeNotebook.notes.sort(function(a,b){
@@ -251,6 +271,23 @@ newNoteButton.onclick = function() {
   noteapp.updateNoteListDisplay();
   noteapp.makeNotesLoadable();
 };
+
+saveNoteButton.onclick = function() {
+  noteapp.saveNote();
+  noteapp.updateNoteListDisplay();
+  noteapp.makeNotesLoadable();
+};
+
+deleteNoteButton.onclick = function () {
+  noteapp.deleteNote();
+  noteapp.startNewNote();
+  noteapp.updateNoteListDisplay();
+  noteapp.makeNotesLoadable();
+}
+
+
+///// Note Save Keys
+
 noteContentInput.addEventListener('keydown', function(e) {
     if (e.keyCode == 13 && e.metaKey) {
         noteapp.saveNote();
@@ -264,18 +301,8 @@ noteContentInput.addEventListener('keydown', function(e) {
         noteapp.makeNotesLoadable();
     }
 });
-saveNoteButton.onclick = function() {
-  noteapp.saveNote();
-  noteapp.updateNoteListDisplay();
-  noteapp.makeNotesLoadable();
-};
 
-deleteNoteButton.onclick = function () {
-  noteapp.deleteNote();
-  noteapp.startNewNote();
-  noteapp.updateNoteListDisplay();
-  noteapp.makeNotesLoadable();
-}
+/// Load Page
 noteapp.updateNotebookDisplay(noteData);
 noteapp.makeNotebooksLoadable();
 noteapp.startNewNote();
