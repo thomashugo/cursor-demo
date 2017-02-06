@@ -79,6 +79,7 @@ a {
 }
 
 .notebook-menu-item-name {
+    flex: 1 1 auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,8 +96,28 @@ a {
     background-color: #444;
 }
 
+.notebook-menu-list-item .menu-item-delete {
+    flex: 0 0 auto;
+    height: 20px;
+    width: 20px;
+    margin: 0 10px;
+    background: url("../resources/icons/trash-icon.svg") no-repeat;
+    background-size: contain;
+    align-self: flex-end;
+}
+
+.notebook-menu-list-item .menu-item-delete:hover {
+    flex: 0 0 auto;
+    height: 20px;
+    width: 20px;
+    margin: 0 10px;
+    background: url("../resources/icons/trash-icon-grey.svg") no-repeat;
+    background-size: contain;
+    align-self: flex-end;
+}
+
 .notebook-menu-list-item .menu-item-star {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     height: 20px;
     width: 20px;
     background: url("../resources/icons/star-icon.svg") no-repeat;
@@ -104,7 +125,7 @@ a {
 }
 
 .notebook-menu-list-item .menu-item-star:hover {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     height: 20px;
     width: 20px;
     background: url("../resources/icons/star-icon-grey.svg") no-repeat;
@@ -112,7 +133,7 @@ a {
 }
 
 .notebook-menu-list-item-starred .menu-item-star {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     height: 20px;
     width: 20px;
     background: url("../resources/icons/star-icon-filled.svg") no-repeat;
@@ -120,7 +141,7 @@ a {
 }
 
 .notebook-menu-list-item-starred .menu-item-star:hover {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     height: 20px;
     width: 20px;
     background: url("../resources/icons/star-icon-filled-grey.svg") no-repeat;
@@ -478,7 +499,7 @@ a {
         flex-direction: row;
     }
     #notebook-menu-toggle-check:checked ~ #notebook-menu-container {
-        flex: 0 0 250px;
+        flex: 0 0 275px;
         border-right: 1px solid #333;
         max-width: 275px;
     }

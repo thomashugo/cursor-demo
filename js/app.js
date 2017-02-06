@@ -5,75 +5,33 @@ var userPreferences = {
     colorScheme: undefined,
 }
 
-var noteData = {
-    notebook_0001: {
-        name: "Test Notebook",
-        starred: false,
-        notes: [
-            {
-                noteID: "abcdefg1234567890",
-                noteTitle: "First Note",
-                noteContent: "This is the note content",
-                dateSaved: new Date('December 12, 2001 03:24:00'),
-                noteHistory: [
-                    {
-                        noteTitle: "Note Test",
-                        noteContent: "First words",
-                        dateSaved: 20170117162323
-                    }
-                ]
-            },
-            {
-                noteID: "xyz987654321",
-                noteTitle: "Second Note",
-                noteContent: "Next note content",
-                dateSaved: new Date('December 17, 2000 03:24:00'),
-                noteHistory: [
-                    {
-                        noteTitle: "Note Test Two",
-                        noteContent: "First words",
-                        dateSaved: 20170118172023
-                    }
-                ]
-            }
-        ]
-    },
-    notebook_0002: {
-        name: "Other Test Notebook with a long name that goes on forever and ever and ever and ever",
-        starred: true,
-        // lastLoaded property to determine which notebook to show by default
-        notes: [
-            {
-                noteID: "dabcdefg1234567890",
-                noteTitle: "Other Note",
-                noteContent: "This is the note content",
-                dateSaved: new Date('December 12, 2001 03:24:00'),
-                noteHistory: [
-                    {
-                        noteTitle: "Note Test",
-                        noteContent: "First words",
-                        dateSaved: 20170117162323
-                    }
-                ]
-            },
-            {
-                noteID: "faxyz987654321",
-                noteTitle: "Another Note",
-                noteContent: "Next note content",
-                dateSaved: new Date('December 17, 2000 03:24:00'),
-                noteHistory: [
-                    {
-                        noteTitle: "Note Test Two",
-                        noteContent: "First words",
-                        dateSaved: 20170118172023
-                    }
-                ]
-            }
-        ]
-    },
-};
 
-var activeNotebook = noteData.notebook_0002;
+var noteData = {};
+var activeNotebook;
+//noteData.activeNotebook = undefined;
+//var activeNotebook = noteData.activeNotebook;
+//
+//
+//function loadFromLocalStorage () {
+//    if (typeof(Storage) !== "undefined") {
+//    // Code for localStorage/sessionStorage.
+//        if (localStorage.hasOwnProperty('cursorAppData')) {
+//            noteData = JSON.parse(localStorage.cursorAppData);
+//        }
+//    } else {
+//        // Sorry! No Web Storage support..
+//    }
+//};
+//
+//function saveToLocalStorage () {
+//    localStorage.cursorAppData = JSON.stringify(noteData);
+//}
+
+function notebook (notebookName) {
+    this.name = notebookName;
+    this.starred = false;
+    this.notes = [];
+};
 
 function note (noteID, noteTitle, noteContent, dateSaved) {
     this.noteID = noteID;
@@ -107,17 +65,18 @@ var noteapp = {
       var html = "";
       var notebookObject = notebookArr[1];
       var notebookKey = notebookArr[0];
+      var trashIcon = "<div class=\"menu-item-delete\"></div>"
       if ((Object.is(activeNotebook, noteData[notebookKey])) && notebookObject.starred) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div>" + trashIcon + "<div class=\"menu-item-star\"></div></div>";
           return html;
       } else if (Object.is(activeNotebook, noteData[notebookKey])) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-selected\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div>" + trashIcon + "<div class=\"menu-item-star\"></div></div>";
           return html;
       } else if (notebookObject.starred) {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item notebook-menu-list-item-starred\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div>" + trashIcon + "<div class=\"menu-item-star\"></div></div>";
           return html;
       } else {
-          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div><div class=\"menu-item-star\"></div></div>";
+          html = "<div id=" + notebookKey + " class=\"notebook-button notebook-menu-list-item\"><div class=\"notebook-menu-item-name\">" + notebookObject.name + "</div>" + trashIcon + "<div class=\"menu-item-star\"></div></div>";
           return html;
       }
   },
@@ -129,8 +88,8 @@ var noteapp = {
           sortedNotebooksArr.push([key,notebookDataObject[key]]);
       });
       sortedNotebooksArr.sort(function(a, b){
-          if (a[1].name < b[1].name) return -1;
-          if (a[1].name > b[1].name) return 1;
+//          if (a[1].name < b[1].name) return -1;
+//          if (a[1].name > b[1].name) return 1;
           return 0;
       });
       sortedNotebooksArr.forEach(function(notebook){
@@ -143,6 +102,7 @@ var noteapp = {
     makeNotebooksLoadable: function () {
         var notebookElement = document.getElementsByClassName("notebook-button");
         for (var i = 0; i < notebookElement.length; i++) {
+            
             if (Object.is(noteData[notebookElement[i].id], activeNotebook)) {
                 var notebookNameField = notebookElement[i].firstElementChild
                 notebookNameField.id = "active-notebook-name";
@@ -154,19 +114,18 @@ var noteapp = {
                     if (e.keyCode == 13) {
                         e.preventDefault();
                         notebookNameField.blur();
-                    } 
+                    }
+                });
+                notebookElement[i].children[1].addEventListener('click', function () {
+//                    noteapp.deleteNote(notebookElement[i].getAttribute('id'));
+                    
+//                    noteapp.updateNotebookDisplay();
                 });
             } else {
                 notebookElement[i].addEventListener('click', noteapp.loadNotebook, false);
             }
         };
-    },
-    makeNotebookNamesEditable: function () {
-        var notebookNames = document.getElementsByClassName("notebook-menu-item-name");
-        for (var i = 0; i < notebookNames.length; i++) {
-            console.log(notebookNames[i]);
-//            notebookNames[i].contentEditable = true;
-        };
+        document.getElementById("create-new-notebook-button").addEventListener('click', noteapp.startNewNotebook, false);
     },
     loadNotebook: function(){
         var id = this.getAttribute("id");
@@ -178,9 +137,29 @@ var noteapp = {
         noteapp.makeNotesLoadable();
     },
     startNewNotebook: function (){
-        
+        var newNotebookID = noteapp.makeUniqueNotebookID(noteData);
+        noteData[newNotebookID] = new notebook("New Notebook");
+        activeNotebook = noteData[newNotebookID];
+        noteapp.updateNotebookDisplay(noteData);
+        noteapp.makeNotebooksLoadable();
+        noteapp.startNewNote();
+        noteapp.updateNoteListDisplay();
+        noteapp.makeNotesLoadable();
     },
-    deleteNotebook: function () {},
+    makeUniqueNotebookID: function (notebookDatabase) {
+        var notebookID = "notebook_" + ((Math.floor(Math.random() * 100) + 1) * (Math.floor(Math.random() * 100) + 1)).toString();
+        if (!(notebookDatabase.hasOwnProperty("notebookID"))) {
+            return notebookID;
+        } else {
+            this.generateUniqueID(notebookDatabase);
+        }
+    },
+    deleteNotebook: function (notebookID) {
+        if (noteData.hasOwnProperty(notebookID)) {
+            delete noteData.notebookID;
+        }
+        noteapp.updateNotebookDisplay();
+    },
     sortNotesByDate: function () {
         activeNotebook.notes.sort(function(a,b){
             return b.dateSaved.getTime() - a.dateSaved.getTime();
@@ -241,7 +220,13 @@ var noteapp = {
   },
   saveNote: function () {
     var date = new Date();
-    var updatedNote = new note(activeNote.noteID, noteTitleInput.value, noteContentInput.value, date);
+    var noteTitle;
+    if (noteTitleInput.value.length > 1) {
+        noteTitle = noteTitleInput.value;
+    } else {
+        noteTitle = "Untitled Note";
+    }
+    var updatedNote = new note(activeNote.noteID, noteTitle, noteContentInput.value, date);
     var noteExists = false;
       activeNotebook.notes.forEach(function(noteObj, index) {
       if (updatedNote.noteID === noteObj.noteID) {
@@ -294,7 +279,7 @@ noteContentInput.addEventListener('keydown', function(e) {
         noteapp.updateNoteListDisplay();
         noteapp.makeNotesLoadable();
     }
-    if (e.keyCode == 8 || e.keyCode == 46) {
+    if (e.metaKey && (e.keyCode == 8 || e.keyCode == 46)) {
         noteapp.deleteNote();
         noteapp.startNewNote();
         noteapp.updateNoteListDisplay();
@@ -303,6 +288,13 @@ noteContentInput.addEventListener('keydown', function(e) {
 });
 
 /// Load Page
+//loadFromLocalStorage();
+
+//if (typeof(activeNotebook) == undefined) {
+//    console.log("error");
+//    noteapp.startNewNotebook();
+//} 
+noteapp.startNewNotebook();
 noteapp.updateNotebookDisplay(noteData);
 noteapp.makeNotebooksLoadable();
 noteapp.startNewNote();
